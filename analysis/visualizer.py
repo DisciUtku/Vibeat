@@ -28,7 +28,6 @@ def animate_waveform(filepath, frame, duration=10):
         canvas.draw()
         canvas.get_tk_widget().pack(fill="both", expand=True)
 
-        # 🎨 Rastgele colormap seçimi
         color_maps = [
             "viridis", "cool", "magma", "twilight",
             "hsv", "inferno", "cividis", "plasma"
@@ -37,7 +36,7 @@ def animate_waveform(filepath, frame, duration=10):
         cmap = cm.get_cmap(cmap_name)
 
         norm = mcolors.Normalize(vmin=0, vmax=len(y))
-        segment_count = 30  # ⏩ daha kısa animasyon
+        segment_count = 30 
         segment_length = len(y) // segment_count
         time_array = np.linspace(0, total_duration, num=len(y))
 
@@ -65,7 +64,7 @@ def animate_waveform(filepath, frame, duration=10):
 
             canvas.draw()
             frame.update()
-            time.sleep(0.025)  # ⏩ daha hızlı geçiş
+            time.sleep(0.025)
 
     except Exception as e:
         print(f"Waveform animation error: {e}")

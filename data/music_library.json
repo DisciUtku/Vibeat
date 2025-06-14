@@ -1,1 +1,79 @@
-[]
+[
+    {
+        "title": "Dearly Beloved",
+        "artist": "Yoko Shimomura",
+        "duration": 153.99,
+        "bpm": 95.7,
+        "key": "C",
+        "danceability": 0.878,
+        "energy": 0.07919999957084656,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\001. Dearly Beloved.mp3"
+    },
+    {
+        "title": "\"Rules of Nature (Platinum Mix)\" - Unmanned Metal Gear RAY Battle/Mini-Boss Theme",
+        "artist": "Jamie Christopherson, Akira Takizawa, Vocals: Jason Miller",
+        "duration": 150.83,
+        "bpm": 129.2,
+        "key": "F",
+        "danceability": 0.982,
+        "energy": 0.251800000667572,
+        "mood": "Energetic / Confident",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\01 Rules of Nature (Platinum Mix).mp3"
+    },
+    {
+        "title": "BFG Division 2020",
+        "artist": "Mick Gordon & Chad Mossholder",
+        "duration": 286.1,
+        "bpm": 117.45,
+        "key": "F#",
+        "danceability": 0.953,
+        "energy": 0.29499998688697815,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\05. BFG Division 2020.mp3"
+    },
+    {
+        "title": "Stage 1",
+        "artist": "Unknown",
+        "duration": 62.04,
+        "bpm": 107.67,
+        "key": "A",
+        "danceability": 0.94,
+        "energy": 0.21389999985694885,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\05. Stage 1.mp3"
+    },
+    {
+        "title": "Zen Garden",
+        "artist": "Laura Shigihara",
+        "duration": 60.13,
+        "bpm": 117.45,
+        "key": "C",
+        "danceability": 0.977,
+        "energy": 0.07400000095367432,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\07. Zen Garden.mp3"
+    },
+    {
+        "title": "\"It Has To Be This Way (Platinum Mix)\" - Final Boss Battle 2",
+        "artist": "Jamie Christopherson & Logan Mader, Akira Takizawa & Pete Crossman, Vocals: Jimmy Gnecco",
+        "duration": 175.54,
+        "bpm": 103.36,
+        "key": "B",
+        "danceability": 0.967,
+        "energy": 0.225600004196167,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\11 It Has To Be This Way (Platinum Mix).mp3"
+    },
+    {
+        "title": "Zombies on Your Lawn",
+        "artist": "Laura Shigihara",
+        "duration": 159.43,
+        "bpm": 103.36,
+        "key": "D",
+        "danceability": 0.972,
+        "energy": 0.07980000227689743,
+        "mood": "Cheerful / Fun",
+        "filepath": "C:\\Users\\ergos\\Downloads\\Music for import\\15. Zombies on Your Lawn.mp3"
+    }
+]

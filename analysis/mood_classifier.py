@@ -40,15 +40,15 @@ def detect_mood(bpm, key, danceability, energy):
     emotional_keys = ['A', 'D', 'E', 'B']
 
     if bpm >= 120 and energy > 0.1 and key in energetic_keys:
-        return "Energetic / Confident"  # MIREX 1
+        return "Energetic / Confident"  
     elif 90 <= bpm < 120 and danceability > 0.6:
-        return "Cheerful / Fun"         # MIREX 2
+        return "Cheerful / Fun"         
     elif bpm < 90 and energy < 0.08 and key in emotional_keys:
-        return "Emotional / Reflective" # MIREX 3
+        return "Emotional / Reflective" 
     elif 100 <= bpm <= 140 and energy > 0.12 and key in energetic_keys:
-        return "Intense / Aggressive"   # MIREX 5
+        return "Intense / Aggressive"   
     else:
-        return "Quirky / Unusual"       # MIREX 4
+        return "Quirky / Unusual"       
 
 def estimate_danceability(y, sr):
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr)

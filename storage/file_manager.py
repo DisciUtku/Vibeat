@@ -12,7 +12,6 @@ def load_library():
 def save_library(new_tracks):
     existing_tracks = load_library()
 
-    # Şarkıları benzersiz hale getirmek için file path kullan (veya title+artist fallback)
     existing_index = {}
     for track in existing_tracks:
         key = track.get("filepath") or f"{track.get('title')}::{track.get('artist')}"
@@ -20,7 +19,7 @@ def save_library(new_tracks):
 
     for new_track in new_tracks:
         key = new_track.get("filepath") or f"{new_track.get('title')}::{new_track.get('artist')}"
-        existing_index[key] = new_track  # aynıysa günceller, yoksa ekler
+        existing_index[key] = new_track 
 
     final_tracks = list(existing_index.values())
 

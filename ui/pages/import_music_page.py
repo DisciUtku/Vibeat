@@ -7,8 +7,9 @@ from analysis.visualizer import animate_waveform
 from storage.file_manager import save_library, load_library
 
 class ImportMusicPage(ctk.CTkFrame):
-    def __init__(self, parent):
+    def __init__(self, parent, update_progress=None):
         super().__init__(parent)
+        self.update_progress = update_progress  # (progress_callback, label_callback)
 
         self.status_label = ctk.CTkLabel(self, text="Waiting to import music...")
         self.status_label.pack(pady=10)
@@ -37,7 +38,8 @@ class ImportMusicPage(ctk.CTkFrame):
     def import_music_files(self):
         filetypes = [("Audio Files", "*.mp3 *.wav"), ("All files", "*.*")]
         files = filedialog.askopenfilenames(title="Select Music Files", filetypes=filetypes)
-        threading.Thread(target=self.process_files, args=(files,), daemon=True).start()
+        if files:
+            threading.Thread(target=self.process_files, args=(files,), daemon=True).start()
 
     def import_music_folder(self):
         folder = filedialog.askdirectory(title="Select Music Folder")
@@ -49,56 +51,67 @@ class ImportMusicPage(ctk.CTkFrame):
             for name in filenames:
                 if name.lower().endswith(valid_ext):
                     files.append(os.path.join(root, name))
-        threading.Thread(target=self.process_files, args=(files,), daemon=True).start()
+        if files:
+            threading.Thread(target=self.process_files, args=(files,), daemon=True).start()
 
     def process_files(self, files):
         if not files:
-            print("No files selected.")
             return
 
         library = load_library()
         existing_paths = {os.path.abspath(track.get("filepath", "")) for track in library}
-        all_metadata = []
+        new_tracks = []
         failed_count = 0
         skipped_count = 0
 
-        if self.winfo_exists():
-            self.after(0, lambda: self.progress_bar.configure(mode="indeterminate"))
-            self.after(0, self.progress_bar.start)
+        total = len(files)
+        completed = 0
+
+        self.after(0, lambda: self.progress_bar.configure(mode="determinate"))
+        self.after(0, lambda: self.progress_bar.set(0))
 
         for f in files:
             normalized_path = os.path.abspath(f)
 
             if normalized_path in existing_paths:
                 skipped_count += 1
-                continue
-
-            data = extract_metadata(normalized_path)
-            if data:
-                all_metadata.append(data)
-                if self.winfo_exists():
-                    self.after(0, lambda title=data["title"]: self.status_label.configure(text=f"Analyzing: {title}"))
-                    self.after(0, lambda path=normalized_path: animate_waveform(path, self.waveform_frame))
             else:
-                failed_count += 1
+                data = extract_metadata(normalized_path)
+                if data:
+                    new_tracks.append(data)
 
-        if self.winfo_exists():
-            self.after(0, self.progress_bar.stop)
-            self.after(0, lambda: self.progress_bar.configure(mode="determinate"))
-            self.after(0, lambda: self.progress_bar.set(1.0))
+                    self.after(0, lambda title=data["title"]:
+                               self.status_label.configure(text=f"Analyzing: {title}"))
+                    self.after(0, lambda path=normalized_path:
+                               animate_waveform(path, self.waveform_frame))
+                else:
+                    failed_count += 1
 
-        save_library(all_metadata)
+            completed += 1
+            progress = completed / total
+            percent_text = f"{int(progress * 100)}%"
 
-        if self.winfo_exists():
-            self.after(0, self.load_and_display_tracks)
+            self.after(0, lambda p=progress: self.progress_bar.set(p))
+            if self.update_progress:
+                progress_func, label_func = self.update_progress
+                self.after(0, lambda p=progress: progress_func(p))
+                self.after(0, lambda t=percent_text: label_func(t))
 
-            message = "Done! ✅"
-            if failed_count > 0:
-                message += f" {failed_count} file(s) failed."
-            if skipped_count > 0:
-                message += f" {skipped_count} file(s) skipped (already imported)."
+        save_library(library + new_tracks)
+        self.after(0, self.load_and_display_tracks)
 
-            self.after(0, lambda: self.status_label.configure(text=message))
+        message = "Done! ✅"
+        if failed_count > 0:
+            message += f" {failed_count} file(s) failed."
+        if skipped_count > 0:
+            message += f" {skipped_count} skipped (already imported)."
+
+        self.after(0, lambda: self.status_label.configure(text=message))
+
+        if self.update_progress:
+            progress_func, label_func = self.update_progress
+            self.after(0, lambda: progress_func(0.0))
+            self.after(0, lambda: label_func(""))
 
     def load_and_display_tracks(self):
         for widget in self.scrollable_frame.winfo_children():
